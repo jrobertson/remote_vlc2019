@@ -31,12 +31,12 @@ class RemoteVlc2019
   alias volume vol
   alias volume= vol=
 
- 
+
   def req(command='')
 
     url = "http://%s:%s/requests/status.xml?command=%s" \
       % [@host, @port, command]
-    s = open(url + '', http_basic_authentication: ["", @password]).read
+    s = URI.open(url + '', http_basic_authentication: ["", @password]).read
     doc = Rexle.new(s)
     @state = %w(state).map {|x| doc.root.text(x) }
     @vol = doc.root.text('volume').to_i
